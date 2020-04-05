@@ -1,0 +1,105 @@
+<br>
+<div class="container-fluid">
+  <h1>Order Records</h1>
+  <br>
+  <div class="row">
+    <div class='col-4'>
+      <input type="text" class="form-control searchBox" placeholder="Search Order-Id" aria-label="Sizing example input"
+        aria-describedby="inputGroup-sizing-sm">
+    </div>
+    <div class="col-6">
+
+    </div>
+    <div class='col-2'>
+      <div class="dropdown text-right">
+        <button class="btn btn-primary dropdown-toggle filterDrop" type="button" id="dropdownMenuButton"
+          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Filter Records
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <a class="dropdown-item" href="#">Today</a>
+          <a class="dropdown-item" href="#">This Week</a>
+          <a class="dropdown-item" href="#">This Month</a>
+          <a class="dropdown-item" href="#">This Year</a>
+          <a class="dropdown-item" href="#">Order Placed</a>
+          <a class="dropdown-item" href="#">Delivered</a>
+          <a class="dropdown-item" href="#">Cancelled</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+
+  <ul class="list-group text-center">
+    <li class="list-group-item text-center listHeader">
+      <div class="row">
+        <div class="col-4"><u>Order ID</u></div>
+        <div class="col"><u>Date Ordered</u></div>
+        <div class="col"><u>Order Status</u></div>
+        <div class="col"><u>Amount Paid</u></div>
+        <div class="col">
+        </div>
+      </div>
+    </li>
+  </ul>
+
+  <ul class="list-group text-center listOrderul" *ngFor="let c of orderList;let i = index">
+    <li class="list-group-item listOrder">
+      <div class="row">
+        <div class="col-4" data-toggle="collapse" [attr.data-target]="'#demo' + i">{{c.ordersInfo.orderDetails.OrderId}}
+        </div>
+        <div class="col" data-toggle="collapse" [attr.data-target]="'#demo' + i">
+          {{c.ordersInfo.orderDetails.OrderPlaced}}</div>
+        <div class="col" data-toggle="collapse" [attr.data-target]="'#demo' + i">
+          {{c.ordersInfo.orderDetails.OrderStatus}}</div>
+        <div class="col" data-toggle="collapse" [attr.data-target]="'#demo' + i">RM {{c.ordersInfo.orderDetails.Total}}
+        </div>
+        <div class="col">
+          <button type="button" class="btn btn-primary" style="margin-left: 15%;"
+            (click)="editModalOpen(editOrderModal ,c._id)">Edit</button>
+          <button type="button" class="btn btn-primary" style="margin-left: 15%;">Print</button>
+        </div>
+      </div>
+      <div id="demo{{i}}" class="collapse" style="border-top-style: solid; margin-top:1.5%;">
+        <br>
+        <div class="row">
+          <div class="col"><b>Name</b><br>{{c.ordersInfo.customerDetails.Name}}</div>
+          <div class="col"><b>E-mail</b><br>{{c.ordersInfo.customerDetails.Email}}</div>
+          <div class="col"><b>Contact No.</b><br>{{c.ordersInfo.customerDetails.ContactNo}}</div>
+          <div class="col"><b>Country</b><br>{{c.ordersInfo.customerDetails.Country}}</div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col"><b>City</b><br>{{c.ordersInfo.customerDetails.City}}</div>
+          <div class="col"><b>House Number</b><br>#{{c.ordersInfo.customerDetails.HouseNo}}</div>
+          <div class="col"><b>Address</b><br>{{c.ordersInfo.customerDetails.Address}}</div>
+          <div class="col"><b>Postal Code</b><br>{{c.ordersInfo.customerDetails.PostalCode}}</div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-3"><b>Order</b><br>{{c.ordersInfo.cartDetails.Name}}</div>
+          <div class="col-3"><b>Payment Method</b><br>{{c.ordersInfo.orderDetails.Payment}}</div>
+          <div class="col-6"></div>
+        </div>
+      </div>
+    </li>
+  </ul>
+
+  <ng-template #editOrderModal>
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">Edit Order</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="editModalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label for="orderStatus">Update Order Status</label>
+        <select id="orderStatus" class="form-control" [formControl]="updateStatus">
+          <option selected>Delivering</option>
+          <option>Cancel</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary" (click)="closeUpdateModal()">Submit</button>
+    </div>
+  </ng-template>

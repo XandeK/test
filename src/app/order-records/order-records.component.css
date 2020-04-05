@@ -1,0 +1,35 @@
+
+.list-group {
+    margin-bottom:-20px; 
+    font-size:15px;
+}
+
+.listHeader {
+    border-radius: 10px;
+    border: none;
+    font-weight: bold;
+    
+}
+
+.listOrder {
+    border-radius: 10px;
+}
+
+h1 {
+    font-weight: bold;
+}
+
+.listOrderul {
+    margin-top: 35px;
+}
+
+.filterDrop{
+    background-color: #ffffff;
+    color: black;
+    border-color: black;
+}
+
+.searchBox{
+    max-width:50%; 
+    border-radius: 10px;
+}

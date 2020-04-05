@@ -1,0 +1,26 @@
+<br>
+<div class="container-fluid">
+  <h1><b>Feedback</b></h1>
+  <h2>Pending Approval</h2>
+</div>
+<br>
+<br>
+<ul class="list-group text-center listFeedbackul" *ngFor="let reviewLists of reviewList; let i = index">
+  <li class="list-group-item text-left listFeedback">
+    <div class="row" data-toggle="collapse" [attr.data-target]="'#demo' + i">
+      <div class="col-3">
+        {{reviewLists.reviewInfo.Name}}
+        <br>
+        Ratings:
+      <img src="../../assets/{{reviewLists.reviewInfo.Rating}}stars.jpg" onerror="'No review'" style="max-width: 100px; max-height: 20px; margin-top: -5px;" />
+
+      </div>
+      <div class="col-3">{{reviewLists.reviewInfo.ProductName}}</div>
+      <div class="col-3">{{reviewLists.reviewInfo.Description}}</div>
+      <div class="col-3 text-right">
+        <button type="button" class="btn btn-primary aprvBtn" (click)="approve(reviewLists._id)">Approve</button>
+        <button type="button" class="btn btn-primary delBtn" (click)="reject(reviewLists._id)">Reject</button>
+      </div>
+    </div>
+  </li>
+</ul>

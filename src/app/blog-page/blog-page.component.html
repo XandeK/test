@@ -1,0 +1,22 @@
+<br>
+<div class="container-fluid">
+  <h1><b>Blog Page</b></h1>
+  <h2>Blogs</h2>
+  <br>
+  <button class="btn btn-primary"> + Add New Post</button>
+</div>
+<br>
+<br>
+<ul class="list-group text-center listCategoryUl" *ngFor="let categoryLists of categoryList; let i = index">
+  <li class="list-group-item text-left listCategory">
+    <div class="row" data-toggle="collapse" [attr.data-target]="'#demo' + i">
+      <div class="col-4">{{categoryLists.category_name}}</div>
+      <div class="col-4"></div>
+      <div class="col-4 text-right">
+        <button type="button" class="btn btn-primary mainBtn">Edit Name</button>
+        <button type="button" class="btn btn-primary mainBtn">Print</button>
+        <button type="button" class="btn btn-primary mainBtn viewBtn" (click)="CategoryProducts(categoryLists.category_name)">View</button>
+      </div>
+    </div>
+  </li>
+</ul>

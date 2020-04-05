@@ -1,0 +1,13 @@
+.mainBtn{
+    width: 100px;
+    text-align: center;
+}
+
+.listProductul{
+    margin-top:2.5%;
+}
+
+.productImage{
+    max-width: 100px; 
+    max-height: 100px;
+}

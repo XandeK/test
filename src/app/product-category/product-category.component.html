@@ -1,0 +1,55 @@
+<br>
+<div class="container-fluid">
+  <h1><b>Products Listing</b></h1>
+  <h2>Categories</h2>
+  <br>
+  <button class="btn btn-primary" (click)="openCreateCatModal(newCatModal)"> + Add New Category</button>
+</div>
+<br>
+<br>
+<ul class="list-group text-center listCategoryUl" *ngFor="let categoryLists of categoryList; let i = index">
+  <li class="list-group-item text-left listCategory">
+    <div class="row" data-toggle="collapse" [attr.data-target]="'#demo' + i">
+      <div class="col-4">{{categoryLists.category_name}}</div>
+      <div class="col-4"></div>
+      <div class="col-4 text-right">
+        <button type="button" class="btn btn-primary mainBtn" (click)="openUpdateCatModal(categoryLists._id, updateCatModal)">Edit Name</button>
+        <button type="button" class="btn btn-primary delBtn" (click)="deleteCategory(categoryLists._id)">Delete</button>
+        <button type="button" class="btn btn-primary mainBtn viewBtn"
+          (click)="CategoryProducts(categoryLists.category_name)">View</button>
+      </div>
+    </div>
+  </li>
+</ul>
+
+<ng-template #newCatModal>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Add New Category</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="createModalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+      <div class="form-group">
+        <label for="categoryName">Category Name</label>
+        <input type="text" class="form-control" id="categoryName" [formControl]="categoryName">
+      </div>
+      <button type="submit" class="btn btn-primary" (click)="closeCreateModal()">Submit</button>
+  </div>
+</ng-template>
+
+<ng-template #updateCatModal>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Update Category Name</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="updateModalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+      <div class="form-group">
+        <label for="newCategoryName">New Category Name</label>
+        <input type="text" class="form-control" id="newCategoryName" [formControl]="newCategoryname">
+      </div>
+      <button type="submit" class="btn btn-primary" (click)="closeUpdateModal()">Submit</button>
+  </div>
+</ng-template>

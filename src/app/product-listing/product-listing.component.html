@@ -1,0 +1,73 @@
+<br>
+<div class="container-fluid">
+  <h1><b>Products Listing</b></h1>
+  <br>
+  <h2>{{catName}}</h2>
+  <button class="btn btn-primary" (click)="openCatModal(newProductModal)"> + Add New Product</button>
+</div>
+<br>
+
+<ul class="list-group text-center listProductul" *ngFor="let results of result;">
+  <li class="list-group-item text-left listProduct">
+    <div class="row">
+      <div class="col-4">
+        <img class="col productImage" id="productImage1" src="{{results.image[0]}}" onerror="this.src='/assets/placeholderImg.PNG'"
+          alt="">
+        <img class="col productImage" id="productImage2" src="{{results.image[1]}}" onerror="this.src='/assets/placeholderImg.PNG'"
+          alt="">
+        <img class="col productImage" id="productImage3" src="{{results.image[2]}}" onerror="this.src='/assets/placeholderImg.PNG'"
+          alt="">
+        <img class="col productImage" id="productImage4" src="{{results.image[3]}}" onerror="this.src='/assets/placeholderImg.PNG'"
+          alt="">
+      </div>
+      <div class="col-2">
+        <div><b>Product Name:</b><br>{{results.name}}</div>
+        <br>
+        <div><b>Agent price:</b><br>{{results.agent_price}}</div>
+      </div>
+      <div class="col-2">
+        <div><b>Normal price:</b><br>{{results.standard_price}}</div>
+        <br>
+        <div><b>Degree range:</b><br>{{results.degreeType}}</div>
+      </div>
+      <div class="col-3">
+        <div><b>Description:</b><br>{{results.description}}</div>
+      </div>
+      <div class="col-1 text-right">
+        <br>
+        <button type="button" class="btn btn-primary mainBtn">Edit Name</button>
+        <br>
+        <br>
+        <button type="button" class="btn btn-primary mainBtn">Delete</button>
+      </div>
+    </div>
+  </li>
+</ul>
+
+<ng-template #newProductModal>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Add New Product Name</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+      <div class="form-group">
+        <label for="categoryName">Product Name</label>
+        <input type="text" class="form-control" id="categoryName" [formControl]="productName">
+      </div>
+      <div class="form-group">
+        <label for="productDescription">Product Description</label>
+        <input type="text" class="form-control" id="productDescription" [formControl]="productDescription">
+      </div>
+      <div class="form-group">
+        <label for="productPrice">Product Price</label>
+        <input type="number" class="form-control" id="productPrice" [formControl]="productPrice">
+      </div>
+      <div class="form-group">
+        <label for="productPrice">Product Normal Price</label>
+        <input type="number" class="form-control" id="productPrice" [formControl]="productPrice">
+      </div>
+      <button type="submit" class="btn btn-primary" (click)="closeModal()">Submit</button>
+  </div>
+</ng-template>

@@ -1,0 +1,27 @@
+#loginForm{
+  /* padding-top: 18%;
+  padding-left: 55%;
+  padding-right: 17%; */
+  margin-left: 20%;
+  width: 600px;
+}
+
+#loginBtn{
+  /* /* margin-left:35px; */
+  margin-left: 31%;
+  width: 200px;
+}
+
+#navName{
+    color: skyblue;
+    font-style: Bold;
+    margin-top: 20%;
+  }
+
+#navLogo{
+    margin-left: 30%;
+}
+
+#adminLogin{
+    margin-left: 2.5%;
+}

@@ -1,0 +1,14 @@
+<div id="mySidenav" *ngIf="nav.visible" class="sidenav">
+  <div id="navLogo">
+    <h1 id="navName">LENSTALK</h1>
+    <p>ADMIN ACCOUNT</p>
+  </div>
+  <a class="options" routerLink="/orderRecords">Order Records</a>
+  <a class="options" routerLink="/productCategory">Product Listing</a>
+  <!-- <a class="options" routerLink="/blogPage">Blog Page</a> -->
+  <a class="options" routerLink="/feedback">Manage Feedback</a>
+  <br>
+  <a class="options" routerLink="/changePassword" style="color:darkblue"><u>Change Password</u></a>
+  <br>
+  <button class="btn btn-primary logOutBtn" (click)="logOut()" routerLink="/login">Log Out</button>
+</div>
