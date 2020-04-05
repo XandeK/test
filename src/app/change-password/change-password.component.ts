@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthenticationService } from '../authentication.service';
 
 @Component({
   selector: 'app-change-password',
@@ -10,7 +11,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class ChangePasswordComponent implements OnInit {
   myForm: FormGroup;
   results: any = false;
-  constructor(private fb: FormBuilder, private router: Router) { }
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private authenticationService: AuthenticationService
+  ) { }
 
   ngOnInit() {
     this.myForm = this.fb.group({
@@ -20,30 +25,21 @@ export class ChangePasswordComponent implements OnInit {
     });
   }
 
-  onSubmit() {
-    if (this.myForm.value.oldPassword === this.myForm.value.password){
+  async onSubmit() {
+    if (this.myForm.value.oldPassword === this.myForm.value.password) {
       alert('Old and New Password cannot be the same. Please change your new Password!');
-    }else {
-      if (this.myForm.value.password === this.myForm.value.reTypePassword) {
-      alert('Password Changed');
-      this.router.navigateByUrl('/orderRecords');
-      // this.authService.authUser(this.myForm.value.email, this.myForm.value.password).subscribe(data => {
-      //   this.results = data;
-      //   if (this.results[0].auth = 'false') {
-      //     sessionStorage.setItem('id', this.myForm.value.email);
-      //     this.authService.setSecureToken(this.myForm.value.email);
-      //     this.router.navigateByUrl('/home');
-      //     this.nav.show()
-      //   else{
-      //     alert('Email or Password is Incorrect');
-      //   }
-      // });
     } else {
-      console.log(this.myForm.value.password);
-      console.log('password');
-      console.log(this.myForm.value.reTypePassword);
-      alert('Inconsistent new password and Re-type passsword. Please Fill in again.')
-    }}
+      if (this.myForm.value.password === this.myForm.value.reTypePassword) {
+        try {
+          await this.authenticationService.changePassword(this.myForm.get('password').value)
+          alert('Password Changed');
+          this.router.navigateByUrl('/orderRecords');
+        } catch (error) {
+          console.log(error);
+        }
+      } else {
+        alert('Inconsistent new password and Re-type passsword. Please Fill in again.')
+      }
+    }
   }
-
 }

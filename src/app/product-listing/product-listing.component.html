@@ -11,14 +11,14 @@
   <li class="list-group-item text-left listProduct">
     <div class="row">
       <div class="col-4">
-        <img class="col productImage" id="productImage1" src="{{results.image[0]}}" onerror="this.src='/assets/placeholderImg.PNG'"
-          alt="">
-        <img class="col productImage" id="productImage2" src="{{results.image[1]}}" onerror="this.src='/assets/placeholderImg.PNG'"
-          alt="">
-        <img class="col productImage" id="productImage3" src="{{results.image[2]}}" onerror="this.src='/assets/placeholderImg.PNG'"
-          alt="">
-        <img class="col productImage" id="productImage4" src="{{results.image[3]}}" onerror="this.src='/assets/placeholderImg.PNG'"
-          alt="">
+        <img class="col productImage" id="productImage1" src="{{results.image[0]}}"
+          onerror="this.src='/assets/placeholderImg.PNG'" alt="">
+        <img class="col productImage" id="productImage2" src="{{results.image[1]}}"
+          onerror="this.src='/assets/placeholderImg.PNG'" alt="">
+        <img class="col productImage" id="productImage3" src="{{results.image[2]}}"
+          onerror="this.src='/assets/placeholderImg.PNG'" alt="">
+        <img class="col productImage" id="productImage4" src="{{results.image[3]}}"
+          onerror="this.src='/assets/placeholderImg.PNG'" alt="">
       </div>
       <div class="col-2">
         <div><b>Product Name:</b><br>{{results.name}}</div>
@@ -44,6 +44,10 @@
   </li>
 </ul>
 
+<ng-container *ngFor="let image of images">
+  <img [src]="image" />
+</ng-container>
+
 <ng-template #newProductModal>
   <div class="modal-header">
     <h4 class="modal-title pull-left">Add New Product Name</h4>
@@ -52,22 +56,48 @@
     </button>
   </div>
   <div class="modal-body">
+    <form [formGroup]="form">
       <div class="form-group">
         <label for="categoryName">Product Name</label>
-        <input type="text" class="form-control" id="categoryName" [formControl]="productName">
+        <input type="text" class="form-control" id="categoryName" formControlName="productName">
       </div>
       <div class="form-group">
         <label for="productDescription">Product Description</label>
-        <input type="text" class="form-control" id="productDescription" [formControl]="productDescription">
+        <input type="text" class="form-control" id="productDescription" formControlName="productDescription">
       </div>
       <div class="form-group">
         <label for="productPrice">Product Price</label>
-        <input type="number" class="form-control" id="productPrice" [formControl]="productPrice">
+        <input type="number" class="form-control" id="productPrice" formControlName="productPrice">
       </div>
       <div class="form-group">
-        <label for="productPrice">Product Normal Price</label>
-        <input type="number" class="form-control" id="productPrice" [formControl]="productPrice">
+        <label for="productStandardPrice">Product Normal Price</label>
+        <input type="number" class="form-control" id="productStandardPrice" formControlName="productStandardPrice">
+      </div>
+      <div class="form-group">
+        <label for="productAgentPrice">Product Agent Price</label>
+        <input type="number" class="form-control" id="productAgentPrice" formControlName="productAgentPrice">
+      </div>
+      <div class="form-group">
+        <label for="productDegreeType">Product Degree Type</label>
+        <input type="text" class="form-control" id="productDegreeType" formControlName="productDegreeType">
+      </div>
+      <div class="form-group">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="productDiscount" formControlName="productDiscount">
+          <label class="form-check-label" for="productDiscount">
+            Product Discount
+          </label>
+        </div>
+      </div>
+      <div class="form-group" *ngIf="form.get('productDiscount').value">
+        <label for="productDiscountPrice">Product Discount Price</label>
+        <input type="number" class="form-control" id="productDiscountPrice" formControlName="productDiscountPrice">
+      </div>
+      <div class="form-group">
+        <label for="fileInput">Product Image</label>
+        <input type="file" class="form-control-file" id="fileInput" multiple (change)="fileChangeEvent($event)">
       </div>
       <button type="submit" class="btn btn-primary" (click)="closeModal()">Submit</button>
+    </form>
   </div>
 </ng-template>

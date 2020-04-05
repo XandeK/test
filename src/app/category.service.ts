@@ -23,10 +23,8 @@ export class CategoryService {
     return this.http.get<any[]>('/api/getAllReviews');
   }
 
-  addNewCategory(name: string) {
-    return this.http.post('/api/addNewCategory', {
-      categoryName: name
-    });
+  addNewCategory(data: string) {
+    return this.http.post('/api/addNewCategory', { categoryName: data });
   }
 
   updateCategory(id: string, newName: string) {
@@ -42,10 +40,17 @@ export class CategoryService {
     });
   }
 
-  addNewProduct(object: object) {
-    return this.http.post('/api/addNewProduct', {
-
-    });
+  addNewProduct(object: any): Promise<any> {
+    console.log(object);
+    return new Promise((resolve, reject) => {
+      this.http.post('/api/addNewProduct', object).toPromise().then(results => {
+        if (results) {
+          resolve(true);
+        } else {
+          reject(false);
+        }
+      });
+    })
   }
 
   updateOrderStatus(id: string, status: string) {

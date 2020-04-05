@@ -9,7 +9,7 @@ const app = express();
 const cors = require('cors');
 app.use(cors());
 // Parsers for POST data
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ extended: false }));
 // Point static path to dist
 app.use(express.static(path.join(__dirname, 'dist')));

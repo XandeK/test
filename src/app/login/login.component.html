@@ -6,21 +6,18 @@
     <br><br>
     <div id="loginForm">
         <form [formGroup]="myForm" novalidate (ngSubmit)="onSubmit(myForm)">
+            <p><input class=form-control formControlName="email" id="email" placeholder="E-mail" /></p>
             <p class="error" *ngIf="myForm.controls.email.dirty &&
             myForm.controls.email.hasError('required')">
                 * Email is required!
             </p>
 
-            <p><input class=form-control formControlName="email" id="email" placeholder="E-mail" /></p>
-
+            <p><input type="password" class=form-control formControlName="password" id="password"
+                    placeholder="Your password" /></p>
             <p class="error" *ngIf="myForm.controls.password.dirty &&
             myForm.controls.password.hasError('required')">
                 * Password is required!
             </p>
-
-            <p><input type="password" class=form-control formControlName="password" id="password"
-                    placeholder="Your password" /></p>
-            <br><br>
 
             <p><button id="loginBtn" class="btn btn-primary" type="submit">LOGIN</button></p>
         </form>

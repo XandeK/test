@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavBarService } from '../nav-bar.service';
+import { AuthenticationService } from '../authentication.service';
 
 @Component({
   selector: 'app-side-nav',
@@ -8,13 +9,18 @@ import { NavBarService } from '../nav-bar.service';
 })
 export class SideNavComponent implements OnInit {
 
-  constructor(public nav: NavBarService) { }
+  constructor(
+    public nav: NavBarService,
+    private authenticationService: AuthenticationService
+    ) { }
 
   ngOnInit() {
   }
 
   logOut(){
     this.nav.hide();
+    this.authenticationService.username = null;
+    this.authenticationService.isAuthenticated = false;
   }
 
 }

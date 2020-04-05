@@ -25,6 +25,43 @@ client.connect(err => {
   console.log("connected");
 });
 
+router.post('/authenticateUser', async function(req, res) {
+  const username = req.body.username;
+  const password = req.body.password;
+  try {
+    const results = await client.db('lenstalk').collection('AdminAccount').findOne(
+      {
+        userName: username,
+        password: password
+      }
+    )
+    if (results) {
+      res.send(true);
+    } else {
+      res.send(false);
+    }
+  } catch(err) {
+    res.send(err);
+  }
+})
+
+router.post('/updatePassword', async function(req, res) {
+  const username = req.body.username;
+  const password = req.body.password;
+  try {
+    const results = await client.db('lenstalk').collection('AdminAccount').updateOne(
+      { userName: username },
+      {
+        $set: { password: password }
+      }
+    );
+    console.log(results);
+    res.send(results);
+  } catch (error) {
+    res.send(error);
+  }
+})
+
 router.get('/getAllCategory', async function (req, res) {
   console.log('category');
   try {
@@ -88,23 +125,8 @@ router.post('/addNewCategory', (req, res) => {
 
 router.post('/addNewProduct', (req, res) => {
   if (req.body) {
-    this.products.insertOne({
-      name: '',
-      description: '',
-      category: '',
-      price: '',
-      standard_price: '',
-      agent_price: '',
-      degreeType: '',
-      image: [],
-      discount: {
-        isDiscount: '',
-        price: ''
-      }
-    })
-    res.status(200).send({
-      result: 'OK'
-    });
+    this.products.insertOne(req.body);
+    res.status(200).send(true);
   }
 })
 

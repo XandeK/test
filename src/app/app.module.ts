@@ -16,6 +16,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ModalModule } from '../../node_modules/ngx-bootstrap';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import { AuthenticationService } from './authentication.service';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,9 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
     ModalModule.forRoot(),
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [
+    AuthenticationService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
