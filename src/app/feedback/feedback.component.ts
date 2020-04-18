@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CategoryService } from '../category.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-feedback',
@@ -9,7 +10,7 @@ import { CategoryService } from '../category.service';
 export class FeedbackComponent implements OnInit {
 
   reviewList: any = [];
-  constructor(private CategoryService: CategoryService) {
+  constructor(private CategoryService: CategoryService, private router:Router) {
     this.CategoryService.getAllReviews().subscribe(data => {
       this.reviewList = data;
       console.log(this.reviewList);
@@ -23,7 +24,9 @@ export class FeedbackComponent implements OnInit {
   approve(id: string) {
     this.CategoryService.approveRejectReviews(id, true).subscribe((results: any) => {
       if (results.result === 'OK') {
-        window.location.reload();
+        this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+          this.router.navigate(['/feedback']);
+      });
       }
     });
   }
@@ -31,7 +34,9 @@ export class FeedbackComponent implements OnInit {
   reject(id: string) {
     this.CategoryService.approveRejectReviews(id, false).subscribe((results: any) => {
       if (results.result === 'OK') {
-        window.location.reload();
+        this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+          this.router.navigate(['/feedback']);
+      });
       }
     });
   }

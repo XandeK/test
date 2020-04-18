@@ -17,6 +17,7 @@ import { ModalModule } from '../../node_modules/ngx-bootstrap';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { AuthenticationService } from './authentication.service';
+import { PrintComponent } from './print/print.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { AuthenticationService } from './authentication.service';
     BlogPageComponent,
     FeedbackComponent,
     ProductCategoryComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    PrintComponent
   ],
   imports: [
     routing,

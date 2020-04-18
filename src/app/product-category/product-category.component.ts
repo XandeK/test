@@ -44,6 +44,9 @@ export class ProductCategoryComponent implements OnInit {
     this.CategoryService.addNewCategory(this.categoryName.value).subscribe((response: any) => {
       if (response.result === 'OK') {
         this.createModalRef.hide();
+        this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+        this.router.navigate(['productCategory']);
+      });
       }
     });
   }
@@ -57,6 +60,9 @@ export class ProductCategoryComponent implements OnInit {
     this.CategoryService.updateCategory(this.updateModalRef.content.id, this.newCategoryname.value).subscribe((response: any) => {
       if (response.result === 'OK') {
         this.updateModalRef.hide();
+        this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+        this.router.navigate(['productCategory']);
+      }); 
       }
     });
   }
@@ -64,7 +70,9 @@ export class ProductCategoryComponent implements OnInit {
   deleteCategory(id: string) {
     this.CategoryService.deleteCategory(id).subscribe((results: any) => {
       if (results.result === 'OK') {
-        window.location.reload();
+        this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+        this.router.navigate(['/productCategory']);
+      });
       }
     })
   }

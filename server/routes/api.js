@@ -63,7 +63,6 @@ router.post('/updatePassword', async function(req, res) {
 })
 
 router.get('/getAllCategory', async function (req, res) {
-  console.log('category');
   try {
     const results = await client.db('lenstalk').collection('Category').find({}).toArray();
     res.send(results);
@@ -73,7 +72,6 @@ router.get('/getAllCategory', async function (req, res) {
 });
 
 router.get('/getAllProduct', async function (req, res) {
-  console.log('product');
   try {
     const results = await client.db('lenstalk').collection('Products').find({}).toArray();
     res.send(results);
@@ -83,7 +81,6 @@ router.get('/getAllProduct', async function (req, res) {
 })
 
 router.get('/getAllOrders', async function (req, res) {
-  console.log('Orders');
   try {
     const results = await client.db('lenstalk').collection('Orders').find({}).toArray();
     res.send(results);
@@ -102,7 +99,6 @@ router.get('/getCategoryProduct/:categoryName', async function (req, res) {
 })
 
 router.get('/getAllReviews', async function (req, res) {
-  console.log('Reviews');
   try {
     const results = await client.db('lenstalk').collection('Reviews').find({}).toArray();
     res.send(results);
