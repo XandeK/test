@@ -64,7 +64,7 @@ export class ProductListingComponent implements OnInit {
   openCatModal(template: TemplateRef<any>, mode: string, id?: string) {
     if (mode === 'create') {
       this.form.reset();
-      this.images = null;
+      this.images = [];
       this.modalRef = this.modalService.show(template);
     } else {
       this.categoryService.getProduct(id).then((results: any) => {
@@ -106,8 +106,12 @@ export class ProductListingComponent implements OnInit {
       console.log('Request Body:', requestBody);
       try {
         const results = await this.categoryService.updateProduct(requestBody);
-        console.log(results);
         this.modalRef.hide();
+        setTimeout(() => {
+          this.categoryService.getCategoryProduct(this.route.snapshot.params.categoryName).subscribe(data => {
+            this.result = data;
+          });
+        }, 500);
       } catch (error) {
         console.log(error);
       }
@@ -130,9 +134,11 @@ export class ProductListingComponent implements OnInit {
       try {
         await this.categoryService.addNewProduct(requestBody);
         this.modalRef.hide();
-        this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-        this.router.navigate(['productListing', this.route.snapshot.params.categoryName]);
-        });
+        setTimeout(() => {
+          this.categoryService.getCategoryProduct(this.route.snapshot.params.categoryName).subscribe(data => {
+            this.result = data;
+          });
+        }, 500);
       } catch (error) {
         console.log(error);
       }

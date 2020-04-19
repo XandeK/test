@@ -208,7 +208,6 @@ router.post('/getProduct', (req, res) => {
 
 router.post('/updateProduct', (req, res) => {
   if (req.body) {
-    console.log(req.body);
     this.products.findOne({
       _id: new ObjectId(req.body.id)
     }).then(results => {
