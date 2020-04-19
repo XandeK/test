@@ -1,9 +1,10 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CategoryService } from '../category.service';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { IfStmt } from '@angular/compiler';
+
 
 @Component({
   selector: 'app-product-listing',
@@ -22,7 +23,8 @@ export class ProductListingComponent implements OnInit {
     private route: ActivatedRoute,
     private categoryService: CategoryService,
     private modalService: BsModalService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private router: Router
   ) {
   }
 
@@ -128,6 +130,9 @@ export class ProductListingComponent implements OnInit {
       try {
         await this.categoryService.addNewProduct(requestBody);
         this.modalRef.hide();
+        this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+        this.router.navigate(['productListing', this.route.snapshot.params.categoryName]);
+        });
       } catch (error) {
         console.log(error);
       }
@@ -140,8 +145,11 @@ export class ProductListingComponent implements OnInit {
       if (results.result === 'OK') {
         this.categoryService.getCategoryProduct(this.route.snapshot.params.categoryName).subscribe(data => {
           this.result = data;
+          this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+            this.router.navigate(['productListing', this.route.snapshot.params.categoryName]);
+          });
         });
       }
-    })
+    });
   }
 }

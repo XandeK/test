@@ -1,3 +1,7 @@
+@media print{
+  .doNotPrint{display:none !important;}
+}
+
 /*Background width*/
 .row{
     width: 100%;

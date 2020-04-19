@@ -18,5 +18,7 @@ export class PrintComponent implements OnInit {
     this.printObject = this.categoryService.getPrintItemDetails();
     console.log(this.printObject);
   }
-
+  onPrint(){
+    window.print();
+}
 }
