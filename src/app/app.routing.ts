@@ -9,6 +9,7 @@ import { FeedbackComponent } from './feedback/feedback.component';
 import { ProductCategoryComponent } from './product-category/product-category.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { AuthGuardGuard } from './auth-guard.guard';
+import { PrintComponent } from './print/print.component';
 
 
 const appRoutes: Routes = [
@@ -20,7 +21,7 @@ const appRoutes: Routes = [
 { path: 'blogPage', component: BlogPageComponent, canActivate: [AuthGuardGuard] },
 { path: 'feedback', component: FeedbackComponent, canActivate: [AuthGuardGuard] },
 { path: 'changePassword', component: ChangePasswordComponent, canActivate: [AuthGuardGuard] },
-
+{ path: 'print', component: PrintComponent, canActivate: [AuthGuardGuard] },
 { path: '', component: LoginComponent, pathMatch: 'full'}
 ];
 export const routing: ModuleWithProviders = RouterModule.forRoot(appRoutes);

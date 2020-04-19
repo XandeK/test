@@ -45,4 +45,9 @@ export class OrderRecordsComponent implements OnInit {
     });
   }
 
+  printItem(c) {
+    this.CategoryService.setPrintItemDetails(c);
+    // Navigate to print page
+    this.router.navigate(['/print']);
+  }
 }

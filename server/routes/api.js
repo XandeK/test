@@ -25,7 +25,7 @@ client.connect(err => {
   console.log("connected");
 });
 
-router.post('/authenticateUser', async function(req, res) {
+router.post('/authenticateUser', async function (req, res) {
   const username = req.body.username;
   const password = req.body.password;
   try {
@@ -40,12 +40,12 @@ router.post('/authenticateUser', async function(req, res) {
     } else {
       res.send(false);
     }
-  } catch(err) {
+  } catch (err) {
     res.send(err);
   }
 })
 
-router.post('/updatePassword', async function(req, res) {
+router.post('/updatePassword', async function (req, res) {
   const username = req.body.username;
   const password = req.body.password;
   try {
@@ -145,8 +145,8 @@ router.post('/updateOrderStatus', (req, res) => {
     this.orders.updateOne({
       _id: new ObjectId(req.body.id)
     }, {
-      $set: { 
-        'ordersInfo.orderDetails.OrderStatus': req.body.status 
+      $set: {
+        'ordersInfo.orderDetails.OrderStatus': req.body.status
       }
     }).then((results) => {
       res.status(200).send({
@@ -161,7 +161,7 @@ router.post('/approveRejectReviews', (req, res) => {
     this.reviews.updateOne({
       _id: new ObjectId(req.body.id)
     }, {
-      $set: { 
+      $set: {
         'Approved': req.body.type
       }
     }).then((results) => {
@@ -181,6 +181,62 @@ router.post('/deleteCategory', (req, res) => {
         result: 'OK'
       })
     })
+  }
+})
+
+router.post('/deleteProduct', (req, res) => {
+  if (req.body) {
+    this.products.deleteOne({
+      _id: new ObjectId(req.body.id)
+    }).then((results) => {
+      res.status(200).send({
+        result: 'OK'
+      })
+    })
+  }
+})
+
+router.post('/getProduct', (req, res) => {
+  if (req.body) {
+    this.products.findOne({
+      _id: new ObjectId(req.body.id)
+    }).then(results => {
+      res.send(results);
+    });
+  }
+})
+
+router.post('/updateProduct', (req, res) => {
+  if (req.body) {
+    console.log(req.body);
+    this.products.findOne({
+      _id: new ObjectId(req.body.id)
+    }).then(results => {
+      let imagesArray = results.image;
+      req.body.image.forEach((images) => {
+        imagesArray.push(images);
+      })
+      this.products.updateOne({
+        _id: new ObjectId(req.body.id)
+      }, { $set:
+        {
+          name: req.body.name,
+          description: req.body.description,
+          category: req.body.category,
+          price: req.body.price,
+          standard_price: req.body.standard_price,
+          agent_price: req.body.agent_price,
+          degreeType: req.body.degreeType,
+          image: imagesArray,
+          discount: {
+            isDiscount: req.body.discount.isDiscount,
+            price: req.body.discount.price
+          }
+        }
+      }).then(results => {
+          res.send(results);
+        })
+  });
   }
 })
 

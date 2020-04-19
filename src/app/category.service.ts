@@ -5,7 +5,18 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class CategoryService {
+
+  printItemDetails: any;
+
   constructor(private http: HttpClient) { }
+
+  getPrintItemDetails() {
+    return this.printItemDetails;
+  }
+
+  setPrintItemDetails(printItemDetail) {
+    this.printItemDetails = printItemDetail;
+  }
 
   getAllCategory() {
     return this.http.get<any[]>('/api/getAllCategory');
@@ -53,6 +64,10 @@ export class CategoryService {
     })
   }
 
+  updateProduct(object: any) {
+    return this.http.post('/api/updateProduct', object).toPromise();
+  }
+
   updateOrderStatus(id: string, status: string) {
     return this.http.post('/api/updateOrderStatus', {
       id: id,
@@ -65,5 +80,17 @@ export class CategoryService {
       id: id,
       type: type
     });
+  }
+
+  deleteProduct(id: string) {
+    return this.http.post('/api/deleteProduct', {
+      id: id
+    }).toPromise();
+  }
+
+  getProduct(id: string) {
+    return this.http.post('/api/getProduct', {
+      id: id
+    }).toPromise();
   }
 }

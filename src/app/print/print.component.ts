@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CategoryService } from '../category.service';
 
 @Component({
   selector: 'app-print',
@@ -7,9 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PrintComponent implements OnInit {
 
-  constructor() { }
+  printObject: any;
+
+  constructor(
+    private categoryService: CategoryService
+  ) { }
 
   ngOnInit() {
+    this.printObject = this.categoryService.getPrintItemDetails();
+    console.log(this.printObject);
   }
 
 }

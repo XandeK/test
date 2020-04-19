@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CategoryService } from '../category.service';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { IfStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-product-listing',
@@ -16,7 +17,6 @@ export class ProductListingComponent implements OnInit {
   result: any = [];
   catName: any = [];
   images: string[] = [];
-  CategoryService: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -33,6 +33,7 @@ export class ProductListingComponent implements OnInit {
       this.result = data;
     });
     this.form = this.formBuilder.group({
+      productId: [null],
       productName: [null, Validators.required],
       productDescription: [null, Validators.required],
       productPrice: [null, Validators.required],
@@ -40,7 +41,8 @@ export class ProductListingComponent implements OnInit {
       productAgentPrice: [null, Validators.required],
       productDegreeType: [null, Validators.required],
       productDiscount: [false],
-      productDiscountPrice: [null]
+      productDiscountPrice: [null],
+      productImagesCount: [null]
     })
   }
 
@@ -57,32 +59,89 @@ export class ProductListingComponent implements OnInit {
     }
   }
 
-  openCatModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template);
+  openCatModal(template: TemplateRef<any>, mode: string, id?: string) {
+    if (mode === 'create') {
+      this.form.reset();
+      this.images = null;
+      this.modalRef = this.modalService.show(template);
+    } else {
+      this.categoryService.getProduct(id).then((results: any) => {
+        this.form.get('productId').patchValue(results._id);
+        this.form.get('productName').patchValue(results.name);
+        this.form.get('productDescription').patchValue(results.description);
+        this.form.get('productPrice').patchValue(results.price);
+        this.form.get('productStandardPrice').patchValue(results.standard_price);
+        this.form.get('productAgentPrice').patchValue(results.agent_price);
+        this.form.get('productDegreeType').patchValue(results.degreeType);
+        this.form.get('productDiscount').patchValue(results.discount.isDiscount);
+        this.form.get('productDiscountPrice').patchValue(results.discount.price);
+        this.form.get('productImagesCount').patchValue(results.image.length);
+        this.modalRef = this.modalService.show(template);
+      });
+    }
   }
+
 
   async closeModal() {
     console.log('Form Values:', this.form);
-    const requestBody = {
-      name: this.form.get('productName').value,
-      description: this.form.get('productDescription').value,
-      category: this.catName,
-      price: this.form.get('productPrice').value,
-      standard_price: this.form.get('productStandardPrice').value,
-      agent_price: this.form.get('productAgentPrice').value,
-      degreeType: this.form.get('productDegreeType').value,
-      image: this.images,
-      discount: {
-        isDiscount: this.form.get('productDiscount').value,
-        price: this.form.get('productDiscountPrice').value
+    if (this.form.get('productId').value) {
+      // Update
+      const requestBody = {
+        id: this.form.get('productId').value,
+        name: this.form.get('productName').value,
+        description: this.form.get('productDescription').value,
+        category: this.catName,
+        price: this.form.get('productPrice').value,
+        standard_price: this.form.get('productStandardPrice').value,
+        agent_price: this.form.get('productAgentPrice').value,
+        degreeType: this.form.get('productDegreeType').value,
+        image: this.images,
+        discount: {
+          isDiscount: this.form.get('productDiscount').value,
+          price: this.form.get('productDiscountPrice').value
+        }
+      }
+      console.log('Request Body:', requestBody);
+      try {
+        const results = await this.categoryService.updateProduct(requestBody);
+        console.log(results);
+        this.modalRef.hide();
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      const requestBody = {
+        name: this.form.get('productName').value,
+        description: this.form.get('productDescription').value,
+        category: this.catName,
+        price: this.form.get('productPrice').value,
+        standard_price: this.form.get('productStandardPrice').value,
+        agent_price: this.form.get('productAgentPrice').value,
+        degreeType: this.form.get('productDegreeType').value,
+        image: this.images,
+        discount: {
+          isDiscount: this.form.get('productDiscount').value,
+          price: this.form.get('productDiscountPrice').value
+        }
+      }
+      console.log('Request Body:', requestBody);
+      try {
+        await this.categoryService.addNewProduct(requestBody);
+        this.modalRef.hide();
+      } catch (error) {
+        console.log(error);
       }
     }
-    console.log('Request Body:', requestBody);
-    try {
-      await this.categoryService.addNewProduct(requestBody);
-      this.modalRef.hide();
-    } catch(error) {
-      console.log(error);
-    }
+
+  }
+
+  deleteProduct(results: any) {
+    this.categoryService.deleteProduct(results._id).then((results: any) => {
+      if (results.result === 'OK') {
+        this.categoryService.getCategoryProduct(this.route.snapshot.params.categoryName).subscribe(data => {
+          this.result = data;
+        });
+      }
+    })
   }
 }
